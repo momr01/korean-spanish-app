@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:korean_spanish_app/common/layouts/main_screen.dart';
 import 'package:korean_spanish_app/common/widgets/loader.dart';
 import 'package:korean_spanish_app/common/widgets/main_title.dart';
+import 'package:korean_spanish_app/features/games/screens/game_home_screen.dart';
 import 'package:korean_spanish_app/features/home/widgets/word_card.dart';
 import 'package:korean_spanish_app/features/practice/screens/practice_options_screen.dart';
 import 'package:korean_spanish_app/features/practice/screens/practice_screen.dart';
@@ -388,6 +389,29 @@ class _HomePageState extends State<HomeScreen> {
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 500),
                         pageBuilder: (_, __, ___) => const StatisticsScreen(),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(CurvedAnimation(
+                                parent: animation, curve: Curves.easeInOut)),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.sports_esports),
+                  title: const Text('Modo juego'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 500),
+                        pageBuilder: (_, __, ___) => const GameHomeScreen(),
                         transitionsBuilder: (_, animation, __, child) {
                           return SlideTransition(
                             position: Tween<Offset>(
