@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:korean_spanish_app/common/layouts/main_screen.dart';
 import 'package:korean_spanish_app/common/widgets/loader.dart';
-import 'package:korean_spanish_app/common/widgets/main_title.dart';
+import 'package:korean_spanish_app/features/admin/screens/admin_main_screen.dart';
+import 'package:korean_spanish_app/features/auth/login/screens/login_screen.dart';
 import 'package:korean_spanish_app/features/games/screens/game_home_screen.dart';
 import 'package:korean_spanish_app/features/home/widgets/word_card.dart';
 import 'package:korean_spanish_app/features/practice/screens/practice_options_screen.dart';
-import 'package:korean_spanish_app/features/practice/screens/practice_screen.dart';
+import 'package:korean_spanish_app/features/profile/screens/profile_screen.dart';
 import 'package:korean_spanish_app/features/statistics/screens/statistics_screen.dart';
 import 'package:korean_spanish_app/features/words/screens/add_word_screen.dart';
 import 'package:korean_spanish_app/features/words/screens/words_list_screen.dart';
@@ -427,8 +427,95 @@ class _HomePageState extends State<HomeScreen> {
                   },
                 ),
                 ListTile(
+                  leading: const Icon(Icons.person),
+                  title: const Text('Perfil'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 400),
+                        pageBuilder: (_, __, ___) => const ProfileScreen(),
+                        transitionsBuilder: (_, animation, __, child) {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(CurvedAnimation(
+                                parent: animation, curve: Curves.easeOut)),
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                // Añade este ListTile al Drawer del HomePage
+                ListTile(
+                  leading: const Icon(Icons.admin_panel_settings),
+                  title: const Text('Administración'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 500),
+                        pageBuilder: (_, __, ___) => const AdminMainScreen(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(
+                              position: Tween<Offset>(
+                                begin: const Offset(0, 0.5),
+                                end: Offset.zero,
+                              ).animate(animation),
+                              child: child,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+
+                ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text('Configuración'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Cerrar sesión'),
+                  /*onTap: () {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+      (route) => false,
+    );
+  },*/
+                  onTap: () async {
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text("¿Cerrar sesión?"),
+                        content: const Text("Vas a salir de tu cuenta actual."),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text("Cancelar")),
+                          TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text("Cerrar sesión")),
+                        ],
+                      ),
+                    );
+
+                    if (confirm == true && context.mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        (route) => false,
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -493,7 +580,8 @@ class _HomePageState extends State<HomeScreen> {
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         // itemCount: wordPairs.length,
-                        itemCount: _foundWords.length,
+                        //  itemCount: _foundWords.length,
+                        itemCount: 5,
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         itemBuilder: (context, index) {
                           // final pair = wordPairs[index];

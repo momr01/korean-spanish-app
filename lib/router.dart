@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:korean_spanish_app/features/404_not_found/screens/not_found_screen.dart';
 import 'package:korean_spanish_app/features/home/screens/home_screen.dart';
-import 'package:korean_spanish_app/features/practice/screens/practice_screen.dart';
-import 'package:korean_spanish_app/features/practice/screens/spanish_hidden_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case HomeScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const HomeScreen());
-    case PracticeScreen.routeName:
-      return MaterialPageRoute(
-          settings: routeSettings, builder: (_) => const PracticeScreen());
-    case SpanishHiddenScreen.routeName:
-      return MaterialPageRoute(
-          settings: routeSettings, builder: (_) => const SpanishHiddenScreen());
+    // case PracticeScreen.routeName:
+    //   return MaterialPageRoute(
+    //       settings: routeSettings, builder: (_) => const PracticeScreen());
+    // case SpanishHiddenScreen.routeName:
+    //   return MaterialPageRoute(
+    //       settings: routeSettings, builder: (_) => const SpanishHiddenScreen());
     // case BottomBar.routeName:
     //   int page = routeSettings.arguments as int;
     //   return MaterialPageRoute(
